@@ -1,0 +1,2248 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audio mit Wort-Highlighting und Div-Modulen</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+            padding-bottom: 150px;
+        }
+        .header-image {
+            width: 100%;
+            height: auto;
+            display: block;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        .audio-player-container {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto 20px;
+            text-align: center;
+        }
+
+      .player-row audio {
+    flex: 1;
+    min-width: 160px;
+    height: 36px;
+}
+
+
+        #textDisplay {
+            border: 1px solid #ccc;
+            padding: 15px;
+            min-height: 100px;
+            font-size: 1.2em;
+            white-space: normal;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+        }
+        .word-pair {
+            display: inline-block;
+            margin: 0 10px 15px 0;
+            vertical-align: top;
+            line-height: 1.5;
+            cursor: pointer;
+        }
+        .current-word {
+            background-color: #add8e6;
+            font-weight: bold;
+            border-radius: 8px;
+        }
+        .vietnamese-word, .german-translation {
+            display: block;
+            padding: 1px;
+        }
+        .hidden {
+            display: none !important;
+        }
+
+
+       .toggle-btn {
+    padding: 8px 12px;
+    border-radius: 12px;
+    border: none;
+    background: #f3f6f8;
+    font-size: 13px;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.toggle-btn.active {
+    background: #cfe9f4;
+    color: #0a4f66;
+}
+
+
+.player-fixed-bottom {
+    position: fixed;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 24px);
+    max-width: 820px;
+
+    background: #ffffff;
+    padding: 18px 20px;
+
+    border-radius: 22px;
+    box-shadow:
+        0 10px 30px rgba(0,0,0,0.12),
+        0 2px 6px rgba(0,0,0,0.08);
+
+    z-index: 1000;
+}
+
+
+   .player-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+}
+
+
+
+   .speed-inline {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 140px;
+}
+
+.speed-inline span {
+    font-size: 13px;
+    width: 46px;
+    text-align: right;
+}
+
+#speedRange {
+    width: 80px;
+}
+
+@media (max-width: 600px) {
+    .player-row {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .player-row audio {
+        flex: 1 1 100%;
+    }
+}
+
+
+
+
+    </style>
+</head>
+<body>
+
+    <img src="Header.png" alt="Ein dekoratives Bild für den Header." class="header-image">
+
+    
+
+
+
+    
+    <div id="textDisplay">
+        <style>font-color: blue; </style>
+
+
+
+ <div class="word-pair" data-start-time="1459" data-end-time="2300">
+    <span class="german-translation">Lektion</span>
+    <span class="vietnamese-word">lesson</span>
+</div>
+<div class="word-pair" data-start-time="2300" data-end-time="2680">
+    <span class="german-translation">3.</span>
+    <span class="vietnamese-word">3.</span>
+</div>
+<div class="word-pair" data-start-time="3260" data-end-time="3580">
+    <span class="german-translation">Gesund</span>
+    <span class="vietnamese-word">Healthy</span>
+</div>
+<div class="word-pair" data-start-time="3580" data-end-time="4180">
+    <span class="german-translation">bleiben.</span>
+    <span class="vietnamese-word">remain.</span>
+</div>
+<div class="word-pair" data-start-time="4820" data-end-time="5100">
+    <span class="german-translation">Folge</span>
+    <span class="vietnamese-word">Consequence</span>
+</div>
+<div class="word-pair" data-start-time="5100" data-end-time="5600">
+    <span class="german-translation">3.</span>
+    <span class="vietnamese-word">3.</span>
+</div>
+<div class="word-pair" data-start-time="6180" data-end-time="6680">
+    <span class="german-translation">Sami</span>
+    <span class="vietnamese-word">Sami</span>
+</div>
+<div class="word-pair" data-start-time="6680" data-end-time="7080">
+    <span class="german-translation">hat</span>
+    <span class="vietnamese-word">has</span>
+</div>
+<div class="word-pair" data-start-time="7080" data-end-time="7500">
+    <span class="german-translation">Stress.</span>
+    <span class="vietnamese-word">Stress.</span>
+</div>
+<div class="word-pair" data-start-time="14240" data-end-time="15080">
+    <span class="german-translation">Ja,</span>
+    <span class="vietnamese-word">Yes,</span>
+</div>
+<div class="word-pair" data-start-time="15240" data-end-time="15360">
+    <span class="german-translation">ich</span>
+    <span class="vietnamese-word">I</span>
+</div>
+<div class="word-pair" data-start-time="15360" data-end-time="15620">
+    <span class="german-translation">hab's</span>
+    <span class="vietnamese-word">got it</span>
+</div>
+<div class="word-pair" data-start-time="15620" data-end-time="16120">
+    <span class="german-translation">verstanden.</span>
+    <span class="vietnamese-word">understood.</span>
+</div>
+<div class="word-pair" data-start-time="17140" data-end-time="17420">
+    <span class="german-translation">Die</span>
+    <span class="vietnamese-word">The</span>
+</div>
+<div class="word-pair" data-start-time="17420" data-end-time="17620">
+    <span class="german-translation">Sache</span>
+    <span class="vietnamese-word">Matter</span>
+</div>
+<div class="word-pair" data-start-time="17620" data-end-time="17760">
+    <span class="german-translation">geht</span>
+    <span class="vietnamese-word">goes</span>
+</div>
+<div class="word-pair" data-start-time="17760" data-end-time="18000">
+    <span class="german-translation">heute</span>
+    <span class="vietnamese-word">today</span>
+</div>
+<div class="word-pair" data-start-time="18000" data-end-time="18220">
+    <span class="german-translation">noch</span>
+    <span class="vietnamese-word">still</span>
+</div>
+<div class="word-pair" data-start-time="18220" data-end-time="18580">
+    <span class="german-translation">raus.</span>
+    <span class="vietnamese-word">out.</span>
+</div>
+<div class="word-pair" data-start-time="19740" data-end-time="20580">
+    <span class="german-translation">Ja</span>
+    <span class="vietnamese-word">Yes</span>
+</div>
+<div class="word-pair" data-start-time="20580" data-end-time="20940">
+    <span class="german-translation">klar,</span>
+    <span class="vietnamese-word">clear,</span>
+</div>
+<div class="word-pair" data-start-time="21520" data-end-time="21840">
+    <span class="german-translation">mach</span>
+    <span class="vietnamese-word">do</span>
+</div>
+<div class="word-pair" data-start-time="21840" data-end-time="22140">
+    <span class="german-translation">ich.</span>
+    <span class="vietnamese-word">I.</span>
+</div>
+<div class="word-pair" data-start-time="23220" data-end-time="23860">
+    <span class="german-translation">Ja,</span>
+    <span class="vietnamese-word">Yes,</span>
+</div>
+<div class="word-pair" data-start-time="24420" data-end-time="24580">
+    <span class="german-translation">ich</span>
+    <span class="vietnamese-word">I</span>
+</div>
+<div class="word-pair" data-start-time="24580" data-end-time="24940">
+    <span class="german-translation">kümmere</span>
+    <span class="vietnamese-word">take care</span>
+</div>
+<div class="word-pair" data-start-time="24940" data-end-time="25080">
+    <span class="german-translation">mich</span>
+    <span class="vietnamese-word">me</span>
+</div>
+<div class="word-pair" data-start-time="25080" data-end-time="25500">
+    <span class="german-translation">persönlich</span>
+    <span class="vietnamese-word">personal</span>
+</div>
+<div class="word-pair" data-start-time="25500" data-end-time="25920">
+    <span class="german-translation">darum.</span>
+    <span class="vietnamese-word">therefore.</span>
+</div>
+<div class="word-pair" data-start-time="27020" data-end-time="27600">
+    <span class="german-translation">Bis</span>
+    <span class="vietnamese-word">Until</span>
+</div>
+<div class="word-pair" data-start-time="27600" data-end-time="27900">
+    <span class="german-translation">dann.</span>
+    <span class="vietnamese-word">then.</span>
+</div>
+<div class="word-pair" data-start-time="29120" data-end-time="29680">
+    <span class="german-translation">Mann!</span>
+    <span class="vietnamese-word">Man!</span>
+</div>
+<div class="word-pair" data-start-time="31480" data-end-time="32060">
+    <span class="german-translation">Hey,</span>
+    <span class="vietnamese-word">Hey,</span>
+</div>
+<div class="word-pair" data-start-time="32060" data-end-time="32640">
+    <span class="german-translation">was</span>
+    <span class="vietnamese-word">What</span>
+</div>
+<div class="word-pair" data-start-time="32640" data-end-time="32800">
+    <span class="german-translation">ist</span>
+    <span class="vietnamese-word">is</span>
+</div>
+<div class="word-pair" data-start-time="32800" data-end-time="33020">
+    <span class="german-translation">los</span>
+    <span class="vietnamese-word">go</span>
+</div>
+<div class="word-pair" data-start-time="33020" data-end-time="33260">
+    <span class="german-translation">mit</span>
+    <span class="vietnamese-word">with</span>
+</div>
+<div class="word-pair" data-start-time="33260" data-end-time="33380">
+    <span class="german-translation">dir,</span>
+    <span class="vietnamese-word">you,</span>
+</div>
+<div class="word-pair" data-start-time="33500" data-end-time="33620">
+    <span class="german-translation">Sami?</span>
+    <span class="vietnamese-word">Sami?</span>
+</div>
+<div class="word-pair" data-start-time="34160" data-end-time="34340">
+    <span class="german-translation">Was</span>
+    <span class="vietnamese-word">What</span>
+</div>
+<div class="word-pair" data-start-time="34340" data-end-time="34660">
+    <span class="german-translation">los</span>
+    <span class="vietnamese-word">go</span>
+</div>
+<div class="word-pair" data-start-time="34660" data-end-time="34980">
+    <span class="german-translation">ist?</span>
+    <span class="vietnamese-word">is?</span>
+</div>
+<div class="word-pair" data-start-time="35860" data-end-time="36060">
+    <span class="german-translation">Hier</span>
+    <span class="vietnamese-word">Here</span>
+</div>
+<div class="word-pair" data-start-time="36060" data-end-time="36240">
+    <span class="german-translation">liegt</span>
+    <span class="vietnamese-word">lies</span>
+</div>
+<div class="word-pair" data-start-time="36240" data-end-time="36500">
+    <span class="german-translation">ein</span>
+    <span class="vietnamese-word">a</span>
+</div>
+<div class="word-pair" data-start-time="36500" data-end-time="37200">
+    <span class="german-translation">Riesenhauf</span>
+    <span class="vietnamese-word">Huge pile</span>
+</div>
+
+<div class="word-pair" data-start-time="37400" data-end-time="37760">
+    <span class="german-translation">Arbeit</span>
+    <span class="vietnamese-word">Work</span>
+</div>
+<div class="word-pair" data-start-time="37760" data-end-time="38080">
+    <span class="german-translation">und</span>
+    <span class="vietnamese-word">and</span>
+</div>
+<div class="word-pair" data-start-time="38080" data-end-time="38220">
+    <span class="german-translation">ich</span>
+    <span class="vietnamese-word">I</span>
+</div>
+<div class="word-pair" data-start-time="38220" data-end-time="38400">
+    <span class="german-translation">komme</span>
+    <span class="vietnamese-word">come</span>
+</div>
+<div class="word-pair" data-start-time="38400" data-end-time="38780">
+    <span class="german-translation">einfach</span>
+    <span class="vietnamese-word">simply</span>
+</div>
+<div class="word-pair" data-start-time="38780" data-end-time="38940">
+    <span class="german-translation">nicht</span>
+    <span class="vietnamese-word">not</span>
+</div>
+<div class="word-pair" data-start-time="38940" data-end-time="39280">
+    <span class="german-translation">dazu,</span>
+    <span class="vietnamese-word">in addition,</span>
+</div>
+<div class="word-pair" data-start-time="39380" data-end-time="39440">
+    <span class="german-translation">sie</span>
+    <span class="vietnamese-word">she</span>
+</div>
+<div class="word-pair" data-start-time="39440" data-end-time="39620">
+    <span class="german-translation">zu</span>
+    <span class="vietnamese-word">to</span>
+</div>
+<div class="word-pair" data-start-time="39620" data-end-time="39840">
+    <span class="german-translation">machen.</span>
+    <span class="vietnamese-word">make.</span>
+</div>
+<div class="word-pair" data-start-time="40960" data-end-time="41160">
+    <span class="german-translation">Ich</span>
+    <span class="vietnamese-word">I</span>
+</div>
+<div class="word-pair" data-start-time="41160" data-end-time="41320">
+    <span class="german-translation">werde</span>
+    <span class="vietnamese-word">become</span>
+</div>
+<div class="word-pair" data-start-time="41320" data-end-time="41680">
+    <span class="german-translation">alle</span>
+    <span class="vietnamese-word">all</span>
+</div>
+<div class="word-pair" data-start-time="41680" data-end-time="41920">
+    <span class="german-translation">fünf</span>
+    <span class="vietnamese-word">five</span>
+</div>
+<div class="word-pair" data-start-time="41920" data-end-time="42280">
+    <span class="german-translation">Minuten</span>
+    <span class="vietnamese-word">minutes</span>
+</div>
+<div class="word-pair" data-start-time="42280" data-end-time="43020">
+    <span class="german-translation">angerufen.</span>
+    <span class="vietnamese-word">called.</span>
+</div>
+<div class="word-pair" data-start-time="44100" data-end-time="44240">
+    <span class="german-translation">Ich</span>
+    <span class="vietnamese-word">I</span>
+</div>
+<div class="word-pair" data-start-time="44240" data-end-time="44540">
+    <span class="german-translation">kann</span>
+    <span class="vietnamese-word">can</span>
+</div>
+<div class="word-pair" data-start-time="44540" data-end-time="44760">
+    <span class="german-translation">mich</span>
+    <span class="vietnamese-word">me</span>
+</div>
+<div class="word-pair" data-start-time="44760" data-end-time="45040">
+    <span class="german-translation">nicht</span>
+    <span class="vietnamese-word">not</span>
+</div>
+<div class="word-pair" data-start-time="45040" data-end-time="46640">
+    <span class="german-translation">konzentrieren.</span>
+    <span class="vietnamese-word">focus.</span>
+</div>
+<div class="word-pair" data-start-time="47200" data-end-time="47380">
+    <span class="german-translation">Das</span>
+    <span class="vietnamese-word">The</span>
+</div>
+<div class="word-pair" data-start-time="47380" data-end-time="47740">
+    <span class="german-translation">ist</span>
+    <span class="vietnamese-word">is</span>
+</div>
+<div class="word-pair" data-start-time="47740" data-end-time="48060">
+    <span class="german-translation">los.</span>
+    <span class="vietnamese-word">go.</span>
+</div>
+<div class="word-pair" data-start-time="49420" data-end-time="50000">
+    <span class="german-translation">Weißt</span>
+    <span class="vietnamese-word">You know</span>
+</div>
+<div class="word-pair" data-start-time="50000" data-end-time="50100">
+    <span class="german-translation">du</span>
+    <span class="vietnamese-word">you</span>
+</div>
+<div class="word-pair" data-start-time="50100" data-end-time="50260">
+    <span class="german-translation">was,</span>
+    <span class="vietnamese-word">What,</span>
+</div>
+<div class="word-pair" data-start-time="50400" data-end-time="50640">
+    <span class="german-translation">Sami?</span>
+    <span class="vietnamese-word">Sami?</span>
+</div>
+<div class="word-pair" data-start-time="52120" data-end-time="52320">
+    <span class="german-translation">Du</span>
+    <span class="vietnamese-word">You</span>
+</div>
+<div class="word-pair" data-start-time="52320" data-end-time="52520">
+    <span class="german-translation">machst</span>
+    <span class="vietnamese-word">do</span>
+</div>
+<div class="word-pair" data-start-time="52520" data-end-time="52800">
+    <span class="german-translation">mir</span>
+    <span class="vietnamese-word">me</span>
+</div>
+<div class="word-pair" data-start-time="52800" data-end-time="53260">
+    <span class="german-translation">Sorgen.</span>
+    <span class="vietnamese-word">Care for.</span>
+</div>
+<div class="word-pair" data-start-time="53260" data-end-time="54140">
+    <span class="german-translation">Was?</span>
+    <span class="vietnamese-word">What?</span>
+</div>
+<div class="word-pair" data-start-time="54980" data-end-time="55320">
+    <span class="german-translation">Du</span>
+    <span class="vietnamese-word">You</span>
+</div>
+<div class="word-pair" data-start-time="55320" data-end-time="55600">
+    <span class="german-translation">siehst</span>
+    <span class="vietnamese-word">see</span>
+</div>
+<div class="word-pair" data-start-time="55600" data-end-time="55920">
+    <span class="german-translation">nicht</span>
+    <span class="vietnamese-word">not</span>
+</div>
+<div class="word-pair" data-start-time="55920" data-end-time="56400">
+    <span class="german-translation">gesund</span>
+    <span class="vietnamese-word">healthy</span>
+</div>
+<div class="word-pair" data-start-time="56400" data-end-time="56840">
+    <span class="german-translation">aus.</span>
+    <span class="vietnamese-word">out of.</span>
+</div>
+<div class="word-pair" data-start-time="57860" data-end-time="58440">
+    <span class="german-translation">Komm,</span>
+    <span class="vietnamese-word">Come,</span>
+</div>
+<div class="word-pair" data-start-time="59440" data-end-time="59740">
+    <span class="german-translation">lass</span>
+    <span class="vietnamese-word">let</span>
+</div>
+<div class="word-pair" data-start-time="59740" data-end-time="59900">
+    <span class="german-translation">uns</span>
+    <span class="vietnamese-word">us</span>
+</div>
+<div class="word-pair" data-start-time="59900" data-end-time="60140">
+    <span class="german-translation">eine</span>
+    <span class="vietnamese-word">one</span>
+</div>
+<div class="word-pair" data-start-time="60140" data-end-time="60400">
+    <span class="german-translation">halbe</span>
+    <span class="vietnamese-word">half</span>
+</div>
+<div class="word-pair" data-start-time="60400" data-end-time="60660">
+    <span class="german-translation">Stunde</span>
+    <span class="vietnamese-word">Hour</span>
+</div>
+<div class="word-pair" data-start-time="60660" data-end-time="61340">
+    <span class="german-translation">spazieren</span>
+    <span class="vietnamese-word">stroll</span>
+</div>
+<div class="word-pair" data-start-time="61340" data-end-time="61620">
+    <span class="german-translation">gehen.</span>
+    <span class="vietnamese-word">go.</span>
+</div>
+<div class="word-pair" data-start-time="61940" data-end-time="62100">
+    <span class="german-translation">Das</span>
+    <span class="vietnamese-word">The</span>
+</div>
+<div class="word-pair" data-start-time="62100" data-end-time="62220">
+    <span class="german-translation">ist</span>
+    <span class="vietnamese-word">is</span>
+</div>
+<div class="word-pair" data-start-time="62220" data-end-time="62400">
+    <span class="german-translation">der</span>
+    <span class="vietnamese-word">the</span>
+</div>
+<div class="word-pair" data-start-time="62400" data-end-time="62600">
+    <span class="german-translation">Witz</span>
+    <span class="vietnamese-word">Joke</span>
+</div>
+<div class="word-pair" data-start-time="62600" data-end-time="62800">
+    <span class="german-translation">des</span>
+    <span class="vietnamese-word">des</span>
+</div>
+<div class="word-pair" data-start-time="62800" data-end-time="63220">
+    <span class="german-translation">Tages.</span>
+    <span class="vietnamese-word">day.</span>
+</div>
+<div class="word-pair" data-start-time="63840" data-end-time="64060">
+    <span class="german-translation">Hast</span>
+    <span class="vietnamese-word">Have</span>
+</div>
+<div class="word-pair" data-start-time="64060" data-end-time="64200">
+    <span class="german-translation">du</span>
+    <span class="vietnamese-word">you</span>
+</div>
+<div class="word-pair" data-start-time="64200" data-end-time="64340">
+    <span class="german-translation">nicht</span>
+    <span class="vietnamese-word">not</span>
+</div>
+<div class="word-pair" data-start-time="64340" data-end-time="64879">
+    <span class="german-translation">zugehört,</span>
+    <span class="vietnamese-word">listened,</span>
+</div>
+<div class="word-pair" data-start-time="64920" data-end-time="65140">
+    <span class="german-translation">Ella?</span>
+    <span class="vietnamese-word">Ella?</span>
+</div>
+<div class="word-pair" data-start-time="65840" data-end-time="66080">
+    <span class="german-translation">Ich</span>
+    <span class="vietnamese-word">I</span>
+</div>
+<div class="word-pair" data-start-time="66080" data-end-time="66580">
+    <span class="german-translation">schaffe</span>
+    <span class="vietnamese-word">create</span>
+</div>
+<div class="word-pair" data-start-time="66580" data-end-time="67660">
+    <span class="german-translation">meine</span>
+    <span class="vietnamese-word">mine</span>
+</div>
+<div class="word-pair" data-start-time="67660" data-end-time="68660">
+    <span class="german-translation">Arbeit</span>
+    <span class="vietnamese-word">Work</span>
+</div>
+<div class="word-pair" data-start-time="68660" data-end-time="69180">
+    <span class="german-translation">nicht.</span>
+    <span class="vietnamese-word">not.</span>
+</div>
+<div class="word-pair" data-start-time="70220" data-end-time="70800">
+    <span class="german-translation">Wenn</span>
+    <span class="vietnamese-word">If</span>
+</div>
+<div class="word-pair" data-start-time="70800" data-end-time="70980">
+    <span class="german-translation">ich</span>
+    <span class="vietnamese-word">I</span>
+</div>
+<div class="word-pair" data-start-time="70980" data-end-time="71160">
+    <span class="german-translation">jetzt</span>
+    <span class="vietnamese-word">now</span>
+</div>
+<div class="word-pair" data-start-time="71160" data-end-time="71360">
+    <span class="german-translation">noch</span>
+    <span class="vietnamese-word">still</span>
+</div>
+<div class="word-pair" data-start-time="71360" data-end-time="72100">
+    <span class="german-translation">spazieren</span>
+    <span class="vietnamese-word">stroll</span>
+</div>
+<div class="word-pair" data-start-time="72100" data-end-time="72440">
+    <span class="german-translation">gehe,</span>
+    <span class="vietnamese-word">go,</span>
+</div>
+<div class="word-pair" data-start-time="73260" data-end-time="73420">
+    <span class="german-translation">mein</span>
+    <span class="vietnamese-word">my</span>
+</div>
+<div class="word-pair" data-start-time="73420" data-end-time="73680">
+    <span class="german-translation">Gott,</span>
+    <span class="vietnamese-word">God,</span>
+</div>
+<div class="word-pair" data-start-time="74120" data-end-time="74220">
+    <span class="german-translation">dann</span>
+    <span class="vietnamese-word">then</span>
+</div>
+<div class="word-pair" data-start-time="74220" data-end-time="74480">
+    <span class="german-translation">schaffe</span>
+    <span class="vietnamese-word">create</span>
+</div>
+<div class="word-pair" data-start-time="74480" data-end-time="74640">
+    <span class="german-translation">ich</span>
+    <span class="vietnamese-word">I</span>
+</div>
+<div class="word-pair" data-start-time="74640" data-end-time="74800">
+    <span class="german-translation">sie</span>
+    <span class="vietnamese-word">she</span>
+</div>
+<div class="word-pair" data-start-time="74800" data-end-time="74960">
+    <span class="german-translation">erst</span>
+    <span class="vietnamese-word">first</span>
+</div>
+<div class="word-pair" data-start-time="74960" data-end-time="75260">
+    <span class="german-translation">recht</span>
+    <span class="vietnamese-word">right</span>
+</div>
+<div class="word-pair" data-start-time="75260" data-end-time="75660">
+    <span class="german-translation">nicht.</span>
+    <span class="vietnamese-word">not.</span>
+</div>
+<div class="word-pair" data-start-time="76620" data-end-time="77200">
+    <span class="german-translation">Das</span>
+    <span class="vietnamese-word">The</span>
+</div>
+<div class="word-pair" data-start-time="77200" data-end-time="77380">
+    <span class="german-translation">sehe</span>
+    <span class="vietnamese-word">see</span>
+</div>
+<div class="word-pair" data-start-time="77380" data-end-time="77600">
+    <span class="german-translation">ich</span>
+    <span class="vietnamese-word">I</span>
+</div>
+<div class="word-pair" data-start-time="77600" data-end-time="77860">
+    <span class="german-translation">ganz</span>
+    <span class="vietnamese-word">quite</span>
+</div>
+<div class="word-pair" data-start-time="77860" data-end-time="78380">
+    <span class="german-translation">anders.</span>
+    <span class="vietnamese-word">different.</span>
+</div>
+<div class="word-pair" data-start-time="79400" data-end-time="79680">
+    <span class="german-translation">Komm</span>
+    <span class="vietnamese-word">Come</span>
+</div>
+<div class="word-pair" data-start-time="79680" data-end-time="79940">
+    <span class="german-translation">schon.</span>
+    <span class="vietnamese-word">already.</span>
+</div>
+<div class="word-pair" data-start-time="80820" data-end-time="81000">
+    <span class="german-translation">Wir</span>
+    <span class="vietnamese-word">We</span>
+</div>
+<div class="word-pair" data-start-time="81000" data-end-time="81160">
+    <span class="german-translation">sind</span>
+    <span class="vietnamese-word">are</span>
+</div>
+<div class="word-pair" data-start-time="81160" data-end-time="81340">
+    <span class="german-translation">ja</span>
+    <span class="vietnamese-word">Yes</span>
+</div>
+<div class="word-pair" data-start-time="81340" data-end-time="81560">
+    <span class="german-translation">gleich</span>
+    <span class="vietnamese-word">even</span>
+</div>
+<div class="word-pair" data-start-time="81560" data-end-time="81860">
+    <span class="german-translation">wieder</span>
+    <span class="vietnamese-word">again</span>
+</div>
+<div class="word-pair" data-start-time="81860" data-end-time="82200">
+    <span class="german-translation">da.</span>
+    <span class="vietnamese-word">there.</span>
+</div>
+<div class="word-pair" data-start-time="87000" data-end-time="87640">
+    <span class="german-translation">Okay.</span>
+    <span class="vietnamese-word">OK.</span>
+</div>
+<div class="word-pair" data-start-time="87640" data-end-time="88280">
+    <span class="german-translation">Die</span>
+    <span class="vietnamese-word">The</span>
+</div>
+<div class="word-pair" data-start-time="88280" data-end-time="88560">
+    <span class="german-translation">Arbeit</span>
+    <span class="vietnamese-word">Work</span>
+</div>
+<div class="word-pair" data-start-time="88560" data-end-time="88880">
+    <span class="german-translation">macht</span>
+    <span class="vietnamese-word">might</span>
+</div>
+<div class="word-pair" data-start-time="88880" data-end-time="89080">
+    <span class="german-translation">mich</span>
+    <span class="vietnamese-word">me</span>
+</div>
+<div class="word-pair" data-start-time="89080" data-end-time="89440">
+    <span class="german-translation">fertig.</span>
+    <span class="vietnamese-word">complete.</span>
+</div>
+<div class="word-pair" data-start-time="90320" data-end-time="90960">
+    <span class="german-translation">Ich</span>
+    <span class="vietnamese-word">I</span>
+</div>
+<div class="word-pair" data-start-time="90960" data-end-time="91140">
+    <span class="german-translation">habe</span>
+    <span class="vietnamese-word">have</span>
+</div>
+<div class="word-pair" data-start-time="91140" data-end-time="91300">
+    <span class="german-translation">seit</span>
+    <span class="vietnamese-word">since</span>
+</div>
+<div class="word-pair" data-start-time="91300" data-end-time="91660">
+    <span class="german-translation">Monaten</span>
+    <span class="vietnamese-word">months</span>
+</div>
+<div class="word-pair" data-start-time="91660" data-end-time="92600">
+    <span class="german-translation">Magenschmerzen.</span>
+    <span class="vietnamese-word">Stomach pain.</span>
+</div>
+<div class="word-pair" data-start-time="93200" data-end-time="93520">
+    <span class="german-translation">Warst</span>
+    <span class="vietnamese-word">You were</span>
+</div>
+<div class="word-pair" data-start-time="93520" data-end-time="93600">
+    <span class="german-translation">du</span>
+    <span class="vietnamese-word">you</span>
+</div>
+<div class="word-pair" data-start-time="93600" data-end-time="93760">
+    <span class="german-translation">schon</span>
+    <span class="vietnamese-word">already</span>
+</div>
+<div class="word-pair" data-start-time="93760" data-end-time="94000">
+    <span class="german-translation">mal</span>
+    <span class="vietnamese-word">just</span>
+</div>
+<div class="word-pair" data-start-time="94000" data-end-time="94160">
+    <span class="german-translation">beim</span>
+    <span class="vietnamese-word">at the</span>
+</div>
+<div class="word-pair" data-start-time="94160" data-end-time="94620">
+    <span class="german-translation">Arzt?</span>
+    <span class="vietnamese-word">Physician?</span>
+</div>
+<div class="word-pair" data-start-time="95100" data-end-time="95480">
+    <span class="german-translation">Nein.</span>
+    <span class="vietnamese-word">No.</span>
+</div>
+<div class="word-pair" data-start-time="96000" data-end-time="96280">
+    <span class="german-translation">Da</span>
+    <span class="vietnamese-word">There</span>
+</div>
+<div class="word-pair" data-start-time="96280" data-end-time="96660">
+    <span class="german-translation">solltest</span>
+    <span class="vietnamese-word">should</span>
+</div>
+<div class="word-pair" data-start-time="96660" data-end-time="96840">
+    <span class="german-translation">du</span>
+    <span class="vietnamese-word">you</span>
+</div>
+<div class="word-pair" data-start-time="96840" data-end-time="97040">
+    <span class="german-translation">aber</span>
+    <span class="vietnamese-word">but</span>
+</div>
+<div class="word-pair" data-start-time="97040" data-end-time="97800">
+    <span class="german-translation">hingehen.</span>
+    <span class="vietnamese-word">go there.</span>
+</div>
+<div class="word-pair" data-start-time="98140" data-end-time="98440">
+    <span class="german-translation">Das</span>
+    <span class="vietnamese-word">The</span>
+</div>
+<div class="word-pair" data-start-time="98440" data-end-time="98620">
+    <span class="german-translation">sagt</span>
+    <span class="vietnamese-word">says</span>
+</div>
+<div class="word-pair" data-start-time="98620" data-end-time="98880">
+    <span class="german-translation">meine</span>
+    <span class="vietnamese-word">mine</span>
+</div>
+<div class="word-pair" data-start-time="98880" data-end-time="99140">
+    <span class="german-translation">Frau</span>
+    <span class="vietnamese-word">Woman</span>
+</div>
+<div class="word-pair" data-start-time="99140" data-end-time="99460">
+    <span class="german-translation">auch.</span>
+    <span class="vietnamese-word">also.</span>
+</div>
+<div class="word-pair" data-start-time="100000" data-end-time="100280">
+    <span class="german-translation">Sie</span>
+    <span class="vietnamese-word">She</span>
+</div>
+<div class="word-pair" data-start-time="100280" data-end-time="100460">
+    <span class="german-translation">hat</span>
+    <span class="vietnamese-word">has</span>
+</div>
+<div class="word-pair" data-start-time="100460" data-end-time="100700">
+    <span class="german-translation">recht.</span>
+    <span class="vietnamese-word">right.</span>
+</div>
+<div class="word-pair" data-start-time="101760" data-end-time="102000">
+    <span class="german-translation">Du.</span>
+    <span class="vietnamese-word">You.</span>
+</div>
+<div class="word-pair" data-start-time="102780" data-end-time="103080">
+    <span class="german-translation">Das</span>
+    <span class="vietnamese-word">The</span>
+</div>
+<div class="word-pair" data-start-time="103080" data-end-time="103300">
+    <span class="german-translation">muss</span>
+    <span class="vietnamese-word">must</span>
+</div>
+<div class="word-pair" data-start-time="103300" data-end-time="103820">
+    <span class="german-translation">unbedingt</span>
+    <span class="vietnamese-word">absolutely</span>
+</div>
+<div class="word-pair" data-start-time="103820" data-end-time="104380">
+    <span class="german-translation">untersucht</span>
+    <span class="vietnamese-word">examined</span>
+</div>
+<div class="word-pair" data-start-time="104380" data-end-time="104720">
+    <span class="german-translation">werden.</span>
+    <span class="vietnamese-word">become.</span>
+</div>
+<div class="word-pair" data-start-time="105100" data-end-time="105320">
+    <span class="german-translation">Meinst</span>
+    <span class="vietnamese-word">I mean</span>
+</div>
+<div class="word-pair" data-start-time="105320" data-end-time="105500">
+    <span class="german-translation">du</span>
+    <span class="vietnamese-word">you</span>
+</div>
+<div class="word-pair" data-start-time="105500" data-end-time="105860">
+    <span class="german-translation">wirklich?</span>
+    <span class="vietnamese-word">really?</span>
+</div>
+<div class="word-pair" data-start-time="106760" data-end-time="107020">
+    <span class="german-translation">Na</span>
+    <span class="vietnamese-word">N/a</span>
+</div>
+<div class="word-pair" data-start-time="107020" data-end-time="107360">
+    <span class="german-translation">sicher.</span>
+    <span class="vietnamese-word">secure.</span>
+</div>
+<div class="word-pair" data-start-time="108000" data-end-time="108200">
+    <span class="german-translation">Ich</span>
+    <span class="vietnamese-word">I</span>
+</div>
+<div class="word-pair" data-start-time="108200" data-end-time="108420">
+    <span class="german-translation">würde</span>
+    <span class="vietnamese-word">would</span>
+</div>
+<div class="word-pair" data-start-time="108420" data-end-time="108620">
+    <span class="german-translation">an</span>
+    <span class="vietnamese-word">to</span>
+</div>
+<div class="word-pair" data-start-time="108620" data-end-time="108960">
+    <span class="german-translation">deiner</span>
+    <span class="vietnamese-word">yours</span>
+</div>
+<div class="word-pair" data-start-time="108960" data-end-time="109240">
+    <span class="german-translation">Stelle</span>
+    <span class="vietnamese-word">position</span>
+</div>
+<div class="word-pair" data-start-time="109240" data-end-time="109440">
+    <span class="german-translation">zu</span>
+    <span class="vietnamese-word">to</span>
+</div>
+<div class="word-pair" data-start-time="109440" data-end-time="109620">
+    <span class="german-translation">einem</span>
+    <span class="vietnamese-word">one</span>
+</div>
+<div class="word-pair" data-start-time="109620" data-end-time="110020">
+    <span class="german-translation">Arzt</span>
+    <span class="vietnamese-word">Physician</span>
+</div>
+<div class="word-pair" data-start-time="110020" data-end-time="110260">
+    <span class="german-translation">gehen.</span>
+    <span class="vietnamese-word">go.</span>
+</div>
+<div class="word-pair" data-start-time="110260" data-end-time="111000">
+    <span class="german-translation">Bei</span>
+    <span class="vietnamese-word">At</span>
+</div>
+<div class="word-pair" data-start-time="111000" data-end-time="111200">
+    <span class="german-translation">so</span>
+    <span class="vietnamese-word">so</span>
+</div>
+<div class="word-pair" data-start-time="111200" data-end-time="111440">
+    <span class="german-translation">was</span>
+    <span class="vietnamese-word">What</span>
+</div>
+<div class="word-pair" data-start-time="111440" data-end-time="111740">
+    <span class="german-translation">holt</span>
+    <span class="vietnamese-word">fetch</span>
+</div>
+<div class="word-pair" data-start-time="111740" data-end-time="111840">
+    <span class="german-translation">man</span>
+    <span class="vietnamese-word">man</span>
+</div>
+<div class="word-pair" data-start-time="111840" data-end-time="112000">
+    <span class="german-translation">sich</span>
+    <span class="vietnamese-word">itself</span>
+</div>
+<div class="word-pair" data-start-time="112000" data-end-time="112180">
+    <span class="german-translation">am</span>
+    <span class="vietnamese-word">on</span>
+</div>
+<div class="word-pair" data-start-time="112180" data-end-time="112600">
+    <span class="german-translation">besten</span>
+    <span class="vietnamese-word">best</span>
+</div>
+<div class="word-pair" data-start-time="112600" data-end-time="112860">
+    <span class="german-translation">den</span>
+    <span class="vietnamese-word">the</span>
+</div>
+<div class="word-pair" data-start-time="112860" data-end-time="113140">
+    <span class="german-translation">Rat</span>
+    <span class="vietnamese-word">Advice</span>
+</div>
+<div class="word-pair" data-start-time="113140" data-end-time="113380">
+    <span class="german-translation">eines</span>
+    <span class="vietnamese-word">one</span>
+</div>
+<div class="word-pair" data-start-time="113380" data-end-time="114260">
+    <span class="german-translation">Fachmanns.</span>
+    <span class="vietnamese-word">specialist.</span>
+</div>
+<div class="word-pair" data-start-time="114900" data-end-time="115240">
+    <span class="german-translation">Oh,</span>
+    <span class="vietnamese-word">Oh,</span>
+</div>
+<div class="word-pair" data-start-time="115500" data-end-time="116100">
+    <span class="german-translation">Wahnsinn.</span>
+    <span class="vietnamese-word">Craziness.</span>
+</div>
+<div class="word-pair" data-start-time="116900" data-end-time="117220">
+    <span class="german-translation">Was</span>
+    <span class="vietnamese-word">What</span>
+</div>
+<div class="word-pair" data-start-time="117220" data-end-time="117440">
+    <span class="german-translation">ist?</span>
+    <span class="vietnamese-word">is?</span>
+</div>
+<div class="word-pair" data-start-time="118260" data-end-time="118620">
+    <span class="german-translation">Gleich</span>
+    <span class="vietnamese-word">Same</span>
+</div>
+<div class="word-pair" data-start-time="118620" data-end-time="118980">
+    <span class="german-translation">drei.</span>
+    <span class="vietnamese-word">three.</span>
+</div>
+<div class="word-pair" data-start-time="119500" data-end-time="119620">
+    <span class="german-translation">Ich</span>
+    <span class="vietnamese-word">I</span>
+</div>
+<div class="word-pair" data-start-time="119620" data-end-time="119760">
+    <span class="german-translation">muss</span>
+    <span class="vietnamese-word">must</span>
+</div>
+<div class="word-pair" data-start-time="119760" data-end-time="120080">
+    <span class="german-translation">zurück</span>
+    <span class="vietnamese-word">back</span>
+</div>
+<div class="word-pair" data-start-time="120080" data-end-time="120220">
+    <span class="german-translation">in</span>
+    <span class="vietnamese-word">in</span>
+</div>
+<div class="word-pair" data-start-time="120220" data-end-time="120320">
+    <span class="german-translation">die</span>
+    <span class="vietnamese-word">the</span>
+</div>
+<div class="word-pair" data-start-time="120320" data-end-time="120880">
+    <span class="german-translation">Redaktion.</span>
+    <span class="vietnamese-word">Editorial team.</span>
+</div>
+<div class="word-pair" data-start-time="121640" data-end-time="121860">
+    <span class="german-translation">Ach</span>
+    <span class="vietnamese-word">Oh</span>
+</div>
+<div class="word-pair" data-start-time="121860" data-end-time="122160">
+    <span class="german-translation">was?</span>
+    <span class="vietnamese-word">What?</span>
+</div>
+<div class="word-pair" data-start-time="122940" data-end-time="123080">
+    <span class="german-translation">Wir</span>
+    <span class="vietnamese-word">We</span>
+</div>
+<div class="word-pair" data-start-time="123080" data-end-time="123260">
+    <span class="german-translation">sind</span>
+    <span class="vietnamese-word">are</span>
+</div>
+<div class="word-pair" data-start-time="123260" data-end-time="123400">
+    <span class="german-translation">doch</span>
+    <span class="vietnamese-word">but</span>
+</div>
+<div class="word-pair" data-start-time="123400" data-end-time="123660">
+    <span class="german-translation">erst</span>
+    <span class="vietnamese-word">first</span>
+</div>
+<div class="word-pair" data-start-time="123660" data-end-time="123920">
+    <span class="german-translation">seit</span>
+    <span class="vietnamese-word">since</span>
+</div>
+<div class="word-pair" data-start-time="123920" data-end-time="124160">
+    <span class="german-translation">zehn</span>
+    <span class="vietnamese-word">ten</span>
+</div>
+<div class="word-pair" data-start-time="124160" data-end-time="124500">
+    <span class="german-translation">Minuten</span>
+    <span class="vietnamese-word">minutes</span>
+</div>
+<div class="word-pair" data-start-time="124500" data-end-time="125080">
+    <span class="german-translation">unterwegs.</span>
+    <span class="vietnamese-word">on the way.</span>
+</div>
+<div class="word-pair" data-start-time="125440" data-end-time="125600">
+    <span class="german-translation">Aber</span>
+    <span class="vietnamese-word">But</span>
+</div>
+<div class="word-pair" data-start-time="125600" data-end-time="125820">
+    <span class="german-translation">meine</span>
+    <span class="vietnamese-word">mine</span>
+</div>
+<div class="word-pair" data-start-time="125820" data-end-time="126300">
+    <span class="german-translation">Arbeit?</span>
+    <span class="vietnamese-word">Work?</span>
+</div>
+<div class="word-pair" data-start-time="127040" data-end-time="127260">
+    <span class="german-translation">Die</span>
+    <span class="vietnamese-word">The</span>
+</div>
+<div class="word-pair" data-start-time="127260" data-end-time="127500">
+    <span class="german-translation">läuft</span>
+    <span class="vietnamese-word">running</span>
+</div>
+<div class="word-pair" data-start-time="127500" data-end-time="127740">
+    <span class="german-translation">schon</span>
+    <span class="vietnamese-word">already</span>
+</div>
+<div class="word-pair" data-start-time="127740" data-end-time="127940">
+    <span class="german-translation">nicht</span>
+    <span class="vietnamese-word">not</span>
+</div>
+<div class="word-pair" data-start-time="127940" data-end-time="128180">
+    <span class="german-translation">weg.</span>
+    <span class="vietnamese-word">away.</span>
+</div>
+<div class="word-pair" data-start-time="129000" data-end-time="129380">
+    <span class="german-translation">Ha,</span>
+    <span class="vietnamese-word">Ha,</span>
+</div>
+<div class="word-pair" data-start-time="129580" data-end-time="129800">
+    <span class="german-translation">ha,</span>
+    <span class="vietnamese-word">Ha,</span>
+</div>
+<div class="word-pair" data-start-time="130000" data-end-time="130300">
+    <span class="german-translation">ha.</span>
+    <span class="vietnamese-word">Ha.</span>
+</div>
+<div class="word-pair" data-start-time="131080" data-end-time="131640">
+    <span class="german-translation">Sag</span>
+    <span class="vietnamese-word">Say</span>
+</div>
+<div class="word-pair" data-start-time="131640" data-end-time="132040">
+    <span class="german-translation">mal,</span>
+    <span class="vietnamese-word">just,</span>
+</div>
+<div class="word-pair" data-start-time="133080" data-end-time="133300">
+    <span class="german-translation">kennst</span>
+    <span class="vietnamese-word">know</span>
+</div>
+<div class="word-pair" data-start-time="133300" data-end-time="133460">
+    <span class="german-translation">du</span>
+    <span class="vietnamese-word">you</span>
+</div>
+<div class="word-pair" data-start-time="133460" data-end-time="133700">
+    <span class="german-translation">eigentlich</span>
+    <span class="vietnamese-word">actually</span>
+</div>
+<div class="word-pair" data-start-time="133700" data-end-time="134040">
+    <span class="german-translation">die</span>
+    <span class="vietnamese-word">the</span>
+</div>
+<div class="word-pair" data-start-time="134040" data-end-time="134360">
+    <span class="german-translation">Geschichte</span>
+    <span class="vietnamese-word">Story</span>
+</div>
+<div class="word-pair" data-start-time="134360" data-end-time="134720">
+    <span class="german-translation">vom</span>
+    <span class="vietnamese-word">from the</span>
+</div>
+<div class="word-pair" data-start-time="134720" data-end-time="135280">
+    <span class="german-translation">Holzfeller?</span>
+    <span class="vietnamese-word">Holzfeller?</span>
+</div>
+<div class="word-pair" data-start-time="135720" data-end-time="136040">
+    <span class="german-translation">Nein.</span>
+    <span class="vietnamese-word">No.</span>
+</div>
+<div class="word-pair" data-start-time="136880" data-end-time="137160">
+    <span class="german-translation">Wie</span>
+    <span class="vietnamese-word">How</span>
+</div>
+<div class="word-pair" data-start-time="137160" data-end-time="137400">
+    <span class="german-translation">geht</span>
+    <span class="vietnamese-word">goes</span>
+</div>
+<div class="word-pair" data-start-time="137400" data-end-time="137560">
+    <span class="german-translation">die?</span>
+    <span class="vietnamese-word">the?</span>
+</div>
+<div class="word-pair" data-start-time="137560" data-end-time="138280">
+    <span class="german-translation">Pass</span>
+    <span class="vietnamese-word">passport</span>
+</div>
+<div class="word-pair" data-start-time="138280" data-end-time="138620">
+    <span class="german-translation">auf.</span>
+    <span class="vietnamese-word">on.</span>
+</div>
+<div class="word-pair" data-start-time="140940" data-end-time="141720">
+    <span class="german-translation">Ein</span>
+    <span class="vietnamese-word">A</span>
+</div>
+<div class="word-pair" data-start-time="141720" data-end-time="142300">
+    <span class="german-translation">Holzfeller</span>
+    <span class="vietnamese-word">Holzfeller</span>
+</div>
+<div class="word-pair" data-start-time="142300" data-end-time="142500">
+    <span class="german-translation">soll</span>
+    <span class="vietnamese-word">should</span>
+</div>
+<div class="word-pair" data-start-time="142500" data-end-time="142880">
+    <span class="german-translation">zehn</span>
+    <span class="vietnamese-word">ten</span>
+</div>
+<div class="word-pair" data-start-time="142880" data-end-time="143340">
+    <span class="german-translation">Bäume</span>
+    <span class="vietnamese-word">trees</span>
+</div>
+<div class="word-pair" data-start-time="143340" data-end-time="143700">
+    <span class="german-translation">fällen.</span>
+    <span class="vietnamese-word">fall.</span>
+</div>
+<div class="word-pair" data-start-time="144820" data-end-time="145120">
+    <span class="german-translation">Er</span>
+    <span class="vietnamese-word">He</span>
+</div>
+<div class="word-pair" data-start-time="145120" data-end-time="145380">
+    <span class="german-translation">nimmt</span>
+    <span class="vietnamese-word">takes</span>
+</div>
+<div class="word-pair" data-start-time="145380" data-end-time="145880">
+    <span class="german-translation">also</span>
+    <span class="vietnamese-word">so</span>
+</div>
+<div class="word-pair" data-start-time="145880" data-end-time="146120">
+    <span class="german-translation">seine</span>
+    <span class="vietnamese-word">his</span>
+</div>
+<div class="word-pair" data-start-time="146120" data-end-time="146540">
+    <span class="german-translation">Axt,</span>
+    <span class="vietnamese-word">Ax,</span>
+</div>
+<div class="word-pair" data-start-time="146920" data-end-time="147120">
+    <span class="german-translation">geht</span>
+    <span class="vietnamese-word">goes</span>
+</div>
+<div class="word-pair" data-start-time="147120" data-end-time="147320">
+    <span class="german-translation">in</span>
+    <span class="vietnamese-word">in</span>
+</div>
+<div class="word-pair" data-start-time="147320" data-end-time="147460">
+    <span class="german-translation">den</span>
+    <span class="vietnamese-word">the</span>
+</div>
+<div class="word-pair" data-start-time="147460" data-end-time="147780">
+    <span class="german-translation">Wald</span>
+    <span class="vietnamese-word">Forest</span>
+</div>
+<div class="word-pair" data-start-time="147780" data-end-time="148500">
+    <span class="german-translation">und</span>
+    <span class="vietnamese-word">and</span>
+</div>
+<div class="word-pair" data-start-time="148500" data-end-time="148760">
+    <span class="german-translation">fängt</span>
+    <span class="vietnamese-word">catches</span>
+</div>
+<div class="word-pair" data-start-time="148760" data-end-time="149040">
+    <span class="german-translation">an.</span>
+    <span class="vietnamese-word">to.</span>
+</div>
+<div class="word-pair" data-start-time="149860" data-end-time="150080">
+    <span class="german-translation">Zack,</span>
+    <span class="vietnamese-word">Zack,</span>
+</div>
+<div class="word-pair" data-start-time="150760" data-end-time="151180">
+    <span class="german-translation">zack,</span>
+    <span class="vietnamese-word">zack,</span>
+</div>
+<div class="word-pair" data-start-time="151860" data-end-time="152420">
+    <span class="german-translation">zack,</span>
+    <span class="vietnamese-word">zack,</span>
+</div>
+<div class="word-pair" data-start-time="153160" data-end-time="153560">
+    <span class="german-translation">zack.</span>
+    <span class="vietnamese-word">boom.</span>
+</div>
+<div class="word-pair" data-start-time="154660" data-end-time="154980">
+    <span class="german-translation">Das</span>
+    <span class="vietnamese-word">The</span>
+</div>
+<div class="word-pair" data-start-time="154980" data-end-time="155420">
+    <span class="german-translation">Problem</span>
+    <span class="vietnamese-word">problem</span>
+</div>
+<div class="word-pair" data-start-time="155420" data-end-time="155700">
+    <span class="german-translation">ist</span>
+    <span class="vietnamese-word">is</span>
+</div>
+<div class="word-pair" data-start-time="155700" data-end-time="156020">
+    <span class="german-translation">nur,</span>
+    <span class="vietnamese-word">only,</span>
+</div>
+<div class="word-pair" data-start-time="156960" data-end-time="157080">
+    <span class="german-translation">die</span>
+    <span class="vietnamese-word">the</span>
+</div>
+<div class="word-pair" data-start-time="157080" data-end-time="157440">
+    <span class="german-translation">Klinge</span>
+    <span class="vietnamese-word">blade</span>
+</div>
+<div class="word-pair" data-start-time="157440" data-end-time="157640">
+    <span class="german-translation">seiner</span>
+    <span class="vietnamese-word">his</span>
+</div>
+<div class="word-pair" data-start-time="157640" data-end-time="158060">
+    <span class="german-translation">Axt</span>
+    <span class="vietnamese-word">ax</span>
+</div>
+<div class="word-pair" data-start-time="158060" data-end-time="158260">
+    <span class="german-translation">ist</span>
+    <span class="vietnamese-word">is</span>
+</div>
+<div class="word-pair" data-start-time="158260" data-end-time="158480">
+    <span class="german-translation">nicht</span>
+    <span class="vietnamese-word">not</span>
+</div>
+<div class="word-pair" data-start-time="158480" data-end-time="158880">
+    <span class="german-translation">scharf.</span>
+    <span class="vietnamese-word">sharp.</span>
+</div>
+<div class="word-pair" data-start-time="159980" data-end-time="160420">
+    <span class="german-translation">Deshalb</span>
+    <span class="vietnamese-word">For this reason</span>
+</div>
+<div class="word-pair" data-start-time="160420" data-end-time="160760">
+    <span class="german-translation">kommt</span>
+    <span class="vietnamese-word">comes</span>
+</div>
+<div class="word-pair" data-start-time="160760" data-end-time="160900">
+    <span class="german-translation">er</span>
+    <span class="vietnamese-word">he</span>
+</div>
+<div class="word-pair" data-start-time="160900" data-end-time="161020">
+    <span class="german-translation">mit</span>
+    <span class="vietnamese-word">with</span>
+</div>
+<div class="word-pair" data-start-time="161020" data-end-time="161220">
+    <span class="german-translation">seiner</span>
+    <span class="vietnamese-word">his</span>
+</div>
+<div class="word-pair" data-start-time="161220" data-end-time="161680">
+    <span class="german-translation">Arbeit</span>
+    <span class="vietnamese-word">Work</span>
+</div>
+<div class="word-pair" data-start-time="161680" data-end-time="161880">
+    <span class="german-translation">nur</span>
+    <span class="vietnamese-word">only</span>
+</div>
+<div class="word-pair" data-start-time="161880" data-end-time="162560">
+    <span class="german-translation">ganz,</span>
+    <span class="vietnamese-word">quite,</span>
+</div>
+<div class="word-pair" data-start-time="162700" data-end-time="163400">
+    <span class="german-translation">ganz</span>
+    <span class="vietnamese-word">quite</span>
+</div>
+<div class="word-pair" data-start-time="163400" data-end-time="164120">
+    <span class="german-translation">langsam</span>
+    <span class="vietnamese-word">slow</span>
+</div>
+<div class="word-pair" data-start-time="164120" data-end-time="164700">
+    <span class="german-translation">voran.</span>
+    <span class="vietnamese-word">ahead.</span>
+</div>
+<div class="word-pair" data-start-time="164700" data-end-time="165820">
+    <span class="german-translation">Obwohl</span>
+    <span class="vietnamese-word">Although</span>
+</div>
+<div class="word-pair" data-start-time="165820" data-end-time="165920">
+    <span class="german-translation">er</span>
+    <span class="vietnamese-word">he</span>
+</div>
+<div class="word-pair" data-start-time="165920" data-end-time="166060">
+    <span class="german-translation">sich</span>
+    <span class="vietnamese-word">itself</span>
+</div>
+<div class="word-pair" data-start-time="166060" data-end-time="166600">
+    <span class="german-translation">total</span>
+    <span class="vietnamese-word">total</span>
+</div>
+<div class="word-pair" data-start-time="166600" data-end-time="167480">
+    <span class="german-translation">anstrengt.</span>
+    <span class="vietnamese-word">strained.</span>
+</div>
+<div class="word-pair" data-start-time="168420" data-end-time="168660">
+    <span class="german-translation">Ein</span>
+    <span class="vietnamese-word">A</span>
+</div>
+<div class="word-pair" data-start-time="168660" data-end-time="169080">
+    <span class="german-translation">anderer</span>
+    <span class="vietnamese-word">others</span>
+</div>
+<div class="word-pair" data-start-time="169080" data-end-time="169760">
+    <span class="german-translation">Holzfeller</span>
+    <span class="vietnamese-word">Holzfeller</span>
+</div>
+<div class="word-pair" data-start-time="169760" data-end-time="170040">
+    <span class="german-translation">sieht</span>
+    <span class="vietnamese-word">sees</span>
+</div>
+<div class="word-pair" data-start-time="170040" data-end-time="170260">
+    <span class="german-translation">das</span>
+    <span class="vietnamese-word">the</span>
+</div>
+<div class="word-pair" data-start-time="170260" data-end-time="170460">
+    <span class="german-translation">und</span>
+    <span class="vietnamese-word">and</span>
+</div>
+<div class="word-pair" data-start-time="170460" data-end-time="170680">
+    <span class="german-translation">sagt,</span>
+    <span class="vietnamese-word">says,</span>
+</div>
+<div class="word-pair" data-start-time="171440" data-end-time="171600">
+    <span class="german-translation">hey</span>
+    <span class="vietnamese-word">hey</span>
+</div>
+<div class="word-pair" data-start-time="171600" data-end-time="171880">
+    <span class="german-translation">Mann,</span>
+    <span class="vietnamese-word">Man,</span>
+</div>
+<div class="word-pair" data-start-time="172740" data-end-time="172900">
+    <span class="german-translation">deine</span>
+    <span class="vietnamese-word">your</span>
+</div>
+<div class="word-pair" data-start-time="172900" data-end-time="173280">
+    <span class="german-translation">Axt</span>
+    <span class="vietnamese-word">ax</span>
+</div>
+<div class="word-pair" data-start-time="173280" data-end-time="173520">
+    <span class="german-translation">muss</span>
+    <span class="vietnamese-word">must</span>
+</div>
+<div class="word-pair" data-start-time="173520" data-end-time="174140">
+    <span class="german-translation">geschärft</span>
+    <span class="vietnamese-word">sharpened</span>
+</div>
+<div class="word-pair" data-start-time="174140" data-end-time="174540">
+    <span class="german-translation">werden.</span>
+    <span class="vietnamese-word">become.</span>
+</div>
+<div class="word-pair" data-start-time="175460" data-end-time="175700">
+    <span class="german-translation">Der</span>
+    <span class="vietnamese-word">The</span>
+</div>
+<div class="word-pair" data-start-time="175700" data-end-time="176240">
+    <span class="german-translation">antwortet</span>
+    <span class="vietnamese-word">answers</span>
+</div>
+<div class="word-pair" data-start-time="176240" data-end-time="176540">
+    <span class="german-translation">unser</span>
+    <span class="vietnamese-word">our</span>
+</div>
+<div class="word-pair" data-start-time="176540" data-end-time="177140">
+    <span class="german-translation">Holzfeller.</span>
+    <span class="vietnamese-word">Holzfeller.</span>
+</div>
+<div class="word-pair" data-start-time="178040" data-end-time="178220">
+    <span class="german-translation">Ich</span>
+    <span class="vietnamese-word">I</span>
+</div>
+<div class="word-pair" data-start-time="178220" data-end-time="178340">
+    <span class="german-translation">habe</span>
+    <span class="vietnamese-word">have</span>
+</div>
+<div class="word-pair" data-start-time="178340" data-end-time="178620">
+    <span class="german-translation">keine</span>
+    <span class="vietnamese-word">no</span>
+</div>
+<div class="word-pair" data-start-time="178620" data-end-time="179020">
+    <span class="german-translation">Zeit.</span>
+    <span class="vietnamese-word">Time.</span>
+</div>
+<div class="word-pair" data-start-time="179540" data-end-time="179700">
+    <span class="german-translation">Ich</span>
+    <span class="vietnamese-word">I</span>
+</div>
+<div class="word-pair" data-start-time="179700" data-end-time="179880">
+    <span class="german-translation">muss</span>
+    <span class="vietnamese-word">must</span>
+</div>
+<div class="word-pair" data-start-time="179880" data-end-time="180060">
+    <span class="german-translation">doch</span>
+    <span class="vietnamese-word">but</span>
+</div>
+<div class="word-pair" data-start-time="180060" data-end-time="180320">
+    <span class="german-translation">erst</span>
+    <span class="vietnamese-word">first</span>
+</div>
+<div class="word-pair" data-start-time="180320" data-end-time="180480">
+    <span class="german-translation">die</span>
+    <span class="vietnamese-word">the</span>
+</div>
+<div class="word-pair" data-start-time="180480" data-end-time="180740">
+    <span class="german-translation">zehn</span>
+    <span class="vietnamese-word">ten</span>
+</div>
+<div class="word-pair" data-start-time="180740" data-end-time="181180">
+    <span class="german-translation">Bäume</span>
+    <span class="vietnamese-word">trees</span>
+</div>
+<div class="word-pair" data-start-time="181180" data-end-time="181580">
+    <span class="german-translation">fällen.</span>
+    <span class="vietnamese-word">fall.</span>
+</div>
+<div class="word-pair" data-start-time="182600" data-end-time="183200">
+    <span class="german-translation">So</span>
+    <span class="vietnamese-word">So</span>
+</div>
+<div class="word-pair" data-start-time="183200" data-end-time="183480">
+    <span class="german-translation">ein</span>
+    <span class="vietnamese-word">a</span>
+</div>
+<div class="word-pair" data-start-time="183480" data-end-time="184020">
+    <span class="german-translation">Idiot.</span>
+    <span class="vietnamese-word">Idiot.</span>
+</div>
+<div class="word-pair" data-start-time="184920" data-end-time="185260">
+    <span class="german-translation">Wenn</span>
+    <span class="vietnamese-word">If</span>
+</div>
+<div class="word-pair" data-start-time="185260" data-end-time="185400">
+    <span class="german-translation">die</span>
+    <span class="vietnamese-word">the</span>
+</div>
+<div class="word-pair" data-start-time="185400" data-end-time="185680">
+    <span class="german-translation">Axt</span>
+    <span class="vietnamese-word">ax</span>
+</div>
+<div class="word-pair" data-start-time="185680" data-end-time="186080">
+    <span class="german-translation">scharf</span>
+    <span class="vietnamese-word">sharp</span>
+</div>
+<div class="word-pair" data-start-time="186080" data-end-time="186520">
+    <span class="german-translation">wäre,</span>
+    <span class="vietnamese-word">were,</span>
+</div>
+<div class="word-pair" data-start-time="187200" data-end-time="187320">
+    <span class="german-translation">dann</span>
+    <span class="vietnamese-word">then</span>
+</div>
+<div class="word-pair" data-start-time="187320" data-end-time="187580">
+    <span class="german-translation">würde</span>
+    <span class="vietnamese-word">would</span>
+</div>
+<div class="word-pair" data-start-time="187580" data-end-time="187900">
+    <span class="german-translation">er</span>
+    <span class="vietnamese-word">he</span>
+</div>
+<div class="word-pair" data-start-time="187900" data-end-time="188080">
+    <span class="german-translation">es</span>
+    <span class="vietnamese-word">it</span>
+</div>
+<div class="word-pair" data-start-time="188080" data-end-time="188300">
+    <span class="german-translation">viel</span>
+    <span class="vietnamese-word">much</span>
+</div>
+<div class="word-pair" data-start-time="188300" data-end-time="188700">
+    <span class="german-translation">schneller</span>
+    <span class="vietnamese-word">faster</span>
+</div>
+<div class="word-pair" data-start-time="188700" data-end-time="189080">
+    <span class="german-translation">schaffen.</span>
+    <span class="vietnamese-word">create.</span>
+</div>
+<div class="word-pair" data-start-time="189820" data-end-time="190160">
+    <span class="german-translation">Siehst</span>
+    <span class="vietnamese-word">See</span>
+</div>
+<div class="word-pair" data-start-time="190160" data-end-time="190340">
+    <span class="german-translation">du?</span>
+    <span class="vietnamese-word">you?</span>
+</div>
+<div class="word-pair" data-start-time="190900" data-end-time="191100">
+    <span class="german-translation">Jetzt</span>
+    <span class="vietnamese-word">Now</span>
+</div>
+<div class="word-pair" data-start-time="191100" data-end-time="191340">
+    <span class="german-translation">hast</span>
+    <span class="vietnamese-word">have</span>
+</div>
+<div class="word-pair" data-start-time="191340" data-end-time="191520">
+    <span class="german-translation">du</span>
+    <span class="vietnamese-word">you</span>
+</div>
+<div class="word-pair" data-start-time="191520" data-end-time="191620">
+    <span class="german-translation">es</span>
+    <span class="vietnamese-word">it</span>
+</div>
+<div class="word-pair" data-start-time="191620" data-end-time="192000">
+    <span class="german-translation">kapiert.</span>
+    <span class="vietnamese-word">got it.</span>
+</div>
+<div class="word-pair" data-start-time="192000" data-end-time="193040">
+    <span class="german-translation">Ich?</span>
+    <span class="vietnamese-word">I?</span>
+</div>
+<div class="word-pair" data-start-time="193480" data-end-time="194020">
+    <span class="german-translation">Was?</span>
+    <span class="vietnamese-word">What?</span>
+</div>
+<div class="word-pair" data-start-time="194840" data-end-time="195100">
+    <span class="german-translation">Nimm</span>
+    <span class="vietnamese-word">Take</span>
+</div>
+<div class="word-pair" data-start-time="195100" data-end-time="195300">
+    <span class="german-translation">dir</span>
+    <span class="vietnamese-word">you</span>
+</div>
+<div class="word-pair" data-start-time="195300" data-end-time="195640">
+    <span class="german-translation">Zeit</span>
+    <span class="vietnamese-word">Time</span>
+</div>
+<div class="word-pair" data-start-time="195640" data-end-time="195920">
+    <span class="german-translation">zur</span>
+    <span class="vietnamese-word">to</span>
+</div>
+<div class="word-pair" data-start-time="195920" data-end-time="196620">
+    <span class="german-translation">Entspannung.</span>
+    <span class="vietnamese-word">Relaxation.</span>
+</div>
+<div class="word-pair" data-start-time="197320" data-end-time="197700">
+    <span class="german-translation">Dann</span>
+    <span class="vietnamese-word">Then</span>
+</div>
+<div class="word-pair" data-start-time="197700" data-end-time="197860">
+    <span class="german-translation">hast</span>
+    <span class="vietnamese-word">have</span>
+</div>
+<div class="word-pair" data-start-time="197860" data-end-time="197960">
+    <span class="german-translation">du</span>
+    <span class="vietnamese-word">you</span>
+</div>
+<div class="word-pair" data-start-time="197960" data-end-time="198160">
+    <span class="german-translation">weniger</span>
+    <span class="vietnamese-word">fewer</span>
+</div>
+<div class="word-pair" data-start-time="198160" data-end-time="198580">
+    <span class="german-translation">Stress</span>
+    <span class="vietnamese-word">stress</span>
+</div>
+<div class="word-pair" data-start-time="198580" data-end-time="199520">
+    <span class="german-translation">und</span>
+    <span class="vietnamese-word">and</span>
+</div>
+<div class="word-pair" data-start-time="199520" data-end-time="199720">
+    <span class="german-translation">bist</span>
+    <span class="vietnamese-word">are</span>
+</div>
+<div class="word-pair" data-start-time="199720" data-end-time="199940">
+    <span class="german-translation">auch</span>
+    <span class="vietnamese-word">also</span>
+</div>
+<div class="word-pair" data-start-time="199940" data-end-time="200120">
+    <span class="german-translation">noch</span>
+    <span class="vietnamese-word">still</span>
+</div>
+<div class="word-pair" data-start-time="200120" data-end-time="200420">
+    <span class="german-translation">schneller.</span>
+    <span class="vietnamese-word">faster.</span>
+</div>
+<div class="word-pair" data-start-time="204680" data-end-time="205400">
+    <span class="german-translation">Hey</span>
+    <span class="vietnamese-word">Hey</span>
+</div>
+<div class="word-pair" data-start-time="205400" data-end-time="205760">
+    <span class="german-translation">Ella.</span>
+    <span class="vietnamese-word">Ella.</span>
+</div>
+<div class="word-pair" data-start-time="206320" data-end-time="206680">
+    <span class="german-translation">Morgen,</span>
+    <span class="vietnamese-word">Morning,</span>
+</div>
+<div class="word-pair" data-start-time="206780" data-end-time="207080">
+    <span class="german-translation">Sammy.</span>
+    <span class="vietnamese-word">Sammy.</span>
+</div>
+<div class="word-pair" data-start-time="209440" data-end-time="210160">
+    <span class="german-translation">Na?</span>
+    <span class="vietnamese-word">N/a?</span>
+</div>
+<div class="word-pair" data-start-time="210860" data-end-time="211060">
+    <span class="german-translation">Hast</span>
+    <span class="vietnamese-word">Have</span>
+</div>
+<div class="word-pair" data-start-time="211060" data-end-time="211200">
+    <span class="german-translation">du</span>
+    <span class="vietnamese-word">you</span>
+</div>
+<div class="word-pair" data-start-time="211200" data-end-time="211340">
+    <span class="german-translation">deine</span>
+    <span class="vietnamese-word">your</span>
+</div>
+<div class="word-pair" data-start-time="211340" data-end-time="211600">
+    <span class="german-translation">zehn</span>
+    <span class="vietnamese-word">ten</span>
+</div>
+<div class="word-pair" data-start-time="211600" data-end-time="212020">
+    <span class="german-translation">Bäume</span>
+    <span class="vietnamese-word">trees</span>
+</div>
+<div class="word-pair" data-start-time="212020" data-end-time="212180">
+    <span class="german-translation">noch</span>
+    <span class="vietnamese-word">still</span>
+</div>
+<div class="word-pair" data-start-time="212180" data-end-time="212540">
+    <span class="german-translation">geschafft</span>
+    <span class="vietnamese-word">done</span>
+</div>
+<div class="word-pair" data-start-time="212540" data-end-time="213140">
+    <span class="german-translation">gestern?</span>
+    <span class="vietnamese-word">yesterday?</span>
+</div>
+<div class="word-pair" data-start-time="214060" data-end-time="214420">
+    <span class="german-translation">Nicht</span>
+    <span class="vietnamese-word">Not</span>
+</div>
+<div class="word-pair" data-start-time="214420" data-end-time="214720">
+    <span class="german-translation">ganz.</span>
+    <span class="vietnamese-word">quite.</span>
+</div>
+<div class="word-pair" data-start-time="215660" data-end-time="215920">
+    <span class="german-translation">Aber</span>
+    <span class="vietnamese-word">But</span>
+</div>
+<div class="word-pair" data-start-time="215920" data-end-time="216060">
+    <span class="german-translation">ich</span>
+    <span class="vietnamese-word">I</span>
+</div>
+<div class="word-pair" data-start-time="216060" data-end-time="216180">
+    <span class="german-translation">war</span>
+    <span class="vietnamese-word">was</span>
+</div>
+<div class="word-pair" data-start-time="216180" data-end-time="216400">
+    <span class="german-translation">viel</span>
+    <span class="vietnamese-word">much</span>
+</div>
+<div class="word-pair" data-start-time="216400" data-end-time="216940">
+    <span class="german-translation">entspannter</span>
+    <span class="vietnamese-word">more relaxed</span>
+</div>
+<div class="word-pair" data-start-time="216940" data-end-time="217120">
+    <span class="german-translation">nach</span>
+    <span class="vietnamese-word">after</span>
+</div>
+<div class="word-pair" data-start-time="217120" data-end-time="217440">
+    <span class="german-translation">unserem</span>
+    <span class="vietnamese-word">ours</span>
+</div>
+<div class="word-pair" data-start-time="217440" data-end-time="218220">
+    <span class="german-translation">Spaziergang.</span>
+    <span class="vietnamese-word">Stroll.</span>
+</div>
+<div class="word-pair" data-start-time="218220" data-end-time="219140">
+    <span class="german-translation">Siehst</span>
+    <span class="vietnamese-word">See</span>
+</div>
+<div class="word-pair" data-start-time="219140" data-end-time="219360">
+    <span class="german-translation">du?</span>
+    <span class="vietnamese-word">you?</span>
+</div>
+<div class="word-pair" data-start-time="220040" data-end-time="220040">
+    <span class="german-translation">Zu</span>
+    <span class="vietnamese-word">To</span>
+</div>
+<div class="word-pair" data-start-time="220040" data-end-time="220460">
+    <span class="german-translation">Hause</span>
+    <span class="vietnamese-word">home</span>
+</div>
+<div class="word-pair" data-start-time="220460" data-end-time="220660">
+    <span class="german-translation">habe</span>
+    <span class="vietnamese-word">have</span>
+</div>
+<div class="word-pair" data-start-time="220660" data-end-time="220800">
+    <span class="german-translation">ich</span>
+    <span class="vietnamese-word">I</span>
+</div>
+<div class="word-pair" data-start-time="220800" data-end-time="220900">
+    <span class="german-translation">mir</span>
+    <span class="vietnamese-word">me</span>
+</div>
+<div class="word-pair" data-start-time="220900" data-end-time="221120">
+    <span class="german-translation">gleich</span>
+    <span class="vietnamese-word">even</span>
+</div>
+<div class="word-pair" data-start-time="221120" data-end-time="221320">
+    <span class="german-translation">die</span>
+    <span class="vietnamese-word">the</span>
+</div>
+<div class="word-pair" data-start-time="221320" data-end-time="221500">
+    <span class="german-translation">Nummer</span>
+    <span class="vietnamese-word">number</span>
+</div>
+<div class="word-pair" data-start-time="221500" data-end-time="221720">
+    <span class="german-translation">eines</span>
+    <span class="vietnamese-word">one</span>
+</div>
+<div class="word-pair" data-start-time="221720" data-end-time="222760">
+    <span class="german-translation">Magenfachmanns</span>
+    <span class="vietnamese-word">stomach specialist</span>
+</div>
+<div class="word-pair" data-start-time="222760" data-end-time="223380">
+    <span class="german-translation">rausgesucht</span>
+    <span class="vietnamese-word">picked out</span>
+</div>
+<div class="word-pair" data-start-time="223380" data-end-time="223960">
+    <span class="german-translation">und</span>
+    <span class="vietnamese-word">and</span>
+</div>
+<div class="word-pair" data-start-time="223960" data-end-time="224260">
+    <span class="german-translation">eine</span>
+    <span class="vietnamese-word">one</span>
+</div>
+<div class="word-pair" data-start-time="224260" data-end-time="224600">
+    <span class="german-translation">Termin</span>
+    <span class="vietnamese-word">Appointment</span>
+</div>
+<div class="word-pair" data-start-time="224600" data-end-time="225120">
+    <span class="german-translation">vereinbart.</span>
+    <span class="vietnamese-word">agreed.</span>
+</div>
+<div class="word-pair" data-start-time="225460" data-end-time="225860">
+    <span class="german-translation">Wow.</span>
+    <span class="vietnamese-word">Wow.</span>
+</div>
+<div class="word-pair" data-start-time="226640" data-end-time="227180">
+    <span class="german-translation">Super.</span>
+    <span class="vietnamese-word">Super.</span>
+</div>
+<div class="word-pair" data-start-time="228300" data-end-time="228380">
+    <span class="german-translation">Ich</span>
+    <span class="vietnamese-word">I</span>
+</div>
+<div class="word-pair" data-start-time="228380" data-end-time="228580">
+    <span class="german-translation">sollte</span>
+    <span class="vietnamese-word">should</span>
+</div>
+<div class="word-pair" data-start-time="228580" data-end-time="229020">
+    <span class="german-translation">übrigens</span>
+    <span class="vietnamese-word">by the way</span>
+</div>
+<div class="word-pair" data-start-time="229020" data-end-time="229260">
+    <span class="german-translation">schöne</span>
+    <span class="vietnamese-word">beautiful</span>
+</div>
+<div class="word-pair" data-start-time="229260" data-end-time="229640">
+    <span class="german-translation">Grüße</span>
+    <span class="vietnamese-word">Greetings</span>
+</div>
+<div class="word-pair" data-start-time="229640" data-end-time="229800">
+    <span class="german-translation">von</span>
+    <span class="vietnamese-word">from</span>
+</div>
+<div class="word-pair" data-start-time="229800" data-end-time="230020">
+    <span class="german-translation">meiner</span>
+    <span class="vietnamese-word">mine</span>
+</div>
+<div class="word-pair" data-start-time="230020" data-end-time="230280">
+    <span class="german-translation">Frau</span>
+    <span class="vietnamese-word">Woman</span>
+</div>
+<div class="word-pair" data-start-time="230280" data-end-time="230640">
+    <span class="german-translation">sagen.</span>
+    <span class="vietnamese-word">say.</span>
+</div>
+<div class="word-pair" data-start-time="231540" data-end-time="231700">
+    <span class="german-translation">Ich</span>
+    <span class="vietnamese-word">I</span>
+</div>
+<div class="word-pair" data-start-time="231700" data-end-time="231940">
+    <span class="german-translation">glaube,</span>
+    <span class="vietnamese-word">believe,</span>
+</div>
+<div class="word-pair" data-start-time="232020" data-end-time="232140">
+    <span class="german-translation">sie</span>
+    <span class="vietnamese-word">she</span>
+</div>
+<div class="word-pair" data-start-time="232140" data-end-time="232240">
+    <span class="german-translation">ist</span>
+    <span class="vietnamese-word">is</span>
+</div>
+<div class="word-pair" data-start-time="232240" data-end-time="233000">
+    <span class="german-translation">eifersüchtig.</span>
+    <span class="vietnamese-word">jealous.</span>
+</div>
+<div class="word-pair" data-start-time="233820" data-end-time="234400">
+    <span class="german-translation">Auf</span>
+    <span class="vietnamese-word">On</span>
+</div>
+<div class="word-pair" data-start-time="234400" data-end-time="234760">
+    <span class="german-translation">mich?</span>
+    <span class="vietnamese-word">me?</span>
+</div>
+<div class="word-pair" data-start-time="235200" data-end-time="235340">
+    <span class="german-translation">Ich</span>
+    <span class="vietnamese-word">I</span>
+</div>
+<div class="word-pair" data-start-time="235340" data-end-time="235500">
+    <span class="german-translation">habe</span>
+    <span class="vietnamese-word">have</span>
+</div>
+<div class="word-pair" data-start-time="235500" data-end-time="235700">
+    <span class="german-translation">hier</span>
+    <span class="vietnamese-word">here</span>
+</div>
+<div class="word-pair" data-start-time="235700" data-end-time="235920">
+    <span class="german-translation">deine</span>
+    <span class="vietnamese-word">your</span>
+</div>
+<div class="word-pair" data-start-time="235920" data-end-time="236820">
+    <span class="german-translation">Holzfellergeschichte</span>
+    <span class="vietnamese-word">Holzfeller story</span>
+</div>
+<div class="word-pair" data-start-time="236820" data-end-time="237260">
+    <span class="german-translation">erzählt.</span>
+    <span class="vietnamese-word">told.</span>
+</div>
+<div class="word-pair" data-start-time="238060" data-end-time="238280">
+    <span class="german-translation">Da</span>
+    <span class="vietnamese-word">There</span>
+</div>
+<div class="word-pair" data-start-time="238280" data-end-time="238400">
+    <span class="german-translation">hat</span>
+    <span class="vietnamese-word">has</span>
+</div>
+<div class="word-pair" data-start-time="238400" data-end-time="238480">
+    <span class="german-translation">sie</span>
+    <span class="vietnamese-word">she</span>
+</div>
+<div class="word-pair" data-start-time="238480" data-end-time="238900">
+    <span class="german-translation">gesagt,</span>
+    <span class="vietnamese-word">said,</span>
+</div>
+<div class="word-pair" data-start-time="240400" data-end-time="240520">
+    <span class="german-translation">die</span>
+    <span class="vietnamese-word">the</span>
+</div>
+<div class="word-pair" data-start-time="240520" data-end-time="241160">
+    <span class="german-translation">Ratschläge</span>
+    <span class="vietnamese-word">Advice</span>
+</div>
+<div class="word-pair" data-start-time="241160" data-end-time="241440">
+    <span class="german-translation">deiner</span>
+    <span class="vietnamese-word">yours</span>
+</div>
+<div class="word-pair" data-start-time="241440" data-end-time="241720">
+    <span class="german-translation">Frau</span>
+    <span class="vietnamese-word">Woman</span>
+</div>
+<div class="word-pair" data-start-time="241720" data-end-time="241900">
+    <span class="german-translation">sind</span>
+    <span class="vietnamese-word">are</span>
+</div>
+<div class="word-pair" data-start-time="241900" data-end-time="242080">
+    <span class="german-translation">dir</span>
+    <span class="vietnamese-word">you</span>
+</div>
+<div class="word-pair" data-start-time="242080" data-end-time="242500">
+    <span class="german-translation">egal.</span>
+    <span class="vietnamese-word">doesn't matter.</span>
+</div>
+<div class="word-pair" data-start-time="242980" data-end-time="243180">
+    <span class="german-translation">Aber</span>
+    <span class="vietnamese-word">But</span>
+</div>
+<div class="word-pair" data-start-time="243180" data-end-time="243460">
+    <span class="german-translation">auf</span>
+    <span class="vietnamese-word">on</span>
+</div>
+<div class="word-pair" data-start-time="243460" data-end-time="243840">
+    <span class="german-translation">sie</span>
+    <span class="vietnamese-word">she</span>
+</div>
+<div class="word-pair" data-start-time="243840" data-end-time="244440">
+    <span class="german-translation">hörst</span>
+    <span class="vietnamese-word">hear</span>
+</div>
+<div class="word-pair" data-start-time="244440" data-end-time="244600">
+    <span class="german-translation">du.</span>
+    <span class="vietnamese-word">you.</span>
+</div>
+<div class="word-pair" data-start-time="244600" data-end-time="245240">
+    <span class="german-translation">Das</span>
+    <span class="vietnamese-word">The</span>
+</div>
+<div class="word-pair" data-start-time="245240" data-end-time="246020">
+    <span class="german-translation">Wichtigste</span>
+    <span class="vietnamese-word">Most important</span>
+</div>
+<div class="word-pair" data-start-time="246020" data-end-time="246260">
+    <span class="german-translation">ist</span>
+    <span class="vietnamese-word">is</span>
+</div>
+<div class="word-pair" data-start-time="246260" data-end-time="246500">
+    <span class="german-translation">doch,</span>
+    <span class="vietnamese-word">but,</span>
+</div>
+<div class="word-pair" data-start-time="246760" data-end-time="246960">
+    <span class="german-translation">dass</span>
+    <span class="vietnamese-word">that</span>
+</div>
+<div class="word-pair" data-start-time="246960" data-end-time="247100">
+    <span class="german-translation">du</span>
+    <span class="vietnamese-word">you</span>
+</div>
+<div class="word-pair" data-start-time="247100" data-end-time="247440">
+    <span class="german-translation">endlich</span>
+    <span class="vietnamese-word">finally</span>
+</div>
+<div class="word-pair" data-start-time="247440" data-end-time="247720">
+    <span class="german-translation">zum</span>
+    <span class="vietnamese-word">for the</span>
+</div>
+<div class="word-pair" data-start-time="247720" data-end-time="248080">
+    <span class="german-translation">Arzt</span>
+    <span class="vietnamese-word">Physician</span>
+</div>
+<div class="word-pair" data-start-time="248080" data-end-time="248500">
+    <span class="german-translation">gehst.</span>
+    <span class="vietnamese-word">go.</span>
+</div>
+<div class="word-pair" data-start-time="248860" data-end-time="249300">
+    <span class="german-translation">Das</span>
+    <span class="vietnamese-word">The</span>
+</div>
+<div class="word-pair" data-start-time="249300" data-end-time="249480">
+    <span class="german-translation">fand</span>
+    <span class="vietnamese-word">found</span>
+</div>
+<div class="word-pair" data-start-time="249480" data-end-time="249680">
+    <span class="german-translation">sie</span>
+    <span class="vietnamese-word">she</span>
+</div>
+<div class="word-pair" data-start-time="249680" data-end-time="249860">
+    <span class="german-translation">dann</span>
+    <span class="vietnamese-word">then</span>
+</div>
+<div class="word-pair" data-start-time="249860" data-end-time="250160">
+    <span class="german-translation">auch.</span>
+    <span class="vietnamese-word">also.</span>
+</div>
+<div class="word-pair" data-start-time="250940" data-end-time="251200">
+    <span class="german-translation">Du,</span>
+    <span class="vietnamese-word">You,</span>
+</div>
+<div class="word-pair" data-start-time="251680" data-end-time="251900">
+    <span class="german-translation">wollen</span>
+    <span class="vietnamese-word">want</span>
+</div>
+<div class="word-pair" data-start-time="251900" data-end-time="252000">
+    <span class="german-translation">wir</span>
+    <span class="vietnamese-word">we</span>
+</div>
+<div class="word-pair" data-start-time="252000" data-end-time="252300">
+    <span class="german-translation">später</span>
+    <span class="vietnamese-word">later</span>
+</div>
+<div class="word-pair" data-start-time="252300" data-end-time="252500">
+    <span class="german-translation">noch</span>
+    <span class="vietnamese-word">still</span>
+</div>
+<div class="word-pair" data-start-time="252500" data-end-time="252720">
+    <span class="german-translation">mal</span>
+    <span class="vietnamese-word">just</span>
+</div>
+<div class="word-pair" data-start-time="252720" data-end-time="252880">
+    <span class="german-translation">eine</span>
+    <span class="vietnamese-word">one</span>
+</div>
+<div class="word-pair" data-start-time="252880" data-end-time="253100">
+    <span class="german-translation">Runde</span>
+    <span class="vietnamese-word">round</span>
+</div>
+<div class="word-pair" data-start-time="253100" data-end-time="253600">
+    <span class="german-translation">spazieren</span>
+    <span class="vietnamese-word">stroll</span>
+</div>
+<div class="word-pair" data-start-time="253600" data-end-time="253820">
+    <span class="german-translation">gehen?</span>
+    <span class="vietnamese-word">go?</span>
+</div>
+<div class="word-pair" data-start-time="254480" data-end-time="254960">
+    <span class="german-translation">Heute</span>
+    <span class="vietnamese-word">Today</span>
+</div>
+<div class="word-pair" data-start-time="254960" data-end-time="255280">
+    <span class="german-translation">nicht.</span>
+    <span class="vietnamese-word">not.</span>
+</div>
+<div class="word-pair" data-start-time="255920" data-end-time="256100">
+    <span class="german-translation">Ich</span>
+    <span class="vietnamese-word">I</span>
+</div>
+<div class="word-pair" data-start-time="256100" data-end-time="256240">
+    <span class="german-translation">muss</span>
+    <span class="vietnamese-word">must</span>
+</div>
+<div class="word-pair" data-start-time="256240" data-end-time="256480">
+    <span class="german-translation">gleich</span>
+    <span class="vietnamese-word">even</span>
+</div>
+<div class="word-pair" data-start-time="256480" data-end-time="256720">
+    <span class="german-translation">weg.</span>
+    <span class="vietnamese-word">away.</span>
+</div>
+<div class="word-pair" data-start-time="257200" data-end-time="257700">
+    <span class="german-translation">Schade.</span>
+    <span class="vietnamese-word">Too bad.</span>
+</div>
+<div class="word-pair" data-start-time="258380" data-end-time="258600">
+    <span class="german-translation">Komm,</span>
+    <span class="vietnamese-word">Come,</span>
+</div>
+<div class="word-pair" data-start-time="258720" data-end-time="258779">
+    <span class="german-translation">komm,</span>
+    <span class="vietnamese-word">come,</span>
+</div>
+<div class="word-pair" data-start-time="258920" data-end-time="259060">
+    <span class="german-translation">komm.</span>
+    <span class="vietnamese-word">come.</span>
+</div>
+<div class="word-pair" data-start-time="259680" data-end-time="259820">
+    <span class="german-translation">Das</span>
+    <span class="vietnamese-word">The</span>
+</div>
+<div class="word-pair" data-start-time="259820" data-end-time="260120">
+    <span class="german-translation">schaffst</span>
+    <span class="vietnamese-word">create</span>
+</div>
+<div class="word-pair" data-start-time="260120" data-end-time="260240">
+    <span class="german-translation">du</span>
+    <span class="vietnamese-word">you</span>
+</div>
+<div class="word-pair" data-start-time="260240" data-end-time="260380">
+    <span class="german-translation">auch</span>
+    <span class="vietnamese-word">also</span>
+</div>
+<div class="word-pair" data-start-time="260380" data-end-time="260779">
+    <span class="german-translation">allein.</span>
+    <span class="vietnamese-word">alone.</span>
+</div>
+
+
+
+
+        
+        <div class="player-fixed-bottom">
+         <div class="player-row">
+  <audio id="audioPlayer"
+       controls
+       controlsList="nodownload noplaybackrate noremoteplayback">
+    <source src="Audio.mp4" type="audio/mpeg">
+</audio>
+
+    <button id="toggleVietnamese" class="toggle-btn active">VI</button>
+    <button id="toggleGerman" class="toggle-btn active">EN</button>
+
+    <div class="speed-inline">
+        <span id="speedValue">1.00×</span>
+        <input type="range"
+               id="speedRange"
+               min="0.25"
+               max="2.0"
+               step="0.05"
+               value="1.0">
+    </div>
+
+    <button id="loopBtn" class="toggle-btn">🔁</button>
+</div>
+
+      
+        
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const audioPlayer = document.getElementById('audioPlayer');
+            const toggleVietnameseBtn = document.getElementById('toggleVietnamese');
+            const toggleGermanBtn = document.getElementById('toggleGerman');
+            const vietnameseWords = document.querySelectorAll('.vietnamese-word');
+            const germanWords = document.querySelectorAll('.german-translation');
+            const wordPairs = document.querySelectorAll('.word-pair');
+            const speedButtons = document.querySelectorAll('.speed-btn');
+
+            let lastHighlightedWord = null;
+
+            function toggleWords(elements, button) {
+                const isActive = button.classList.toggle('active');
+                elements.forEach(el => {
+                    el.classList.toggle('hidden', !isActive);
+                });
+            }
+
+            toggleVietnameseBtn.addEventListener('click', () => {
+                toggleWords(vietnameseWords, toggleVietnameseBtn);
+            });
+
+            toggleGermanBtn.addEventListener('click', () => {
+                toggleWords(germanWords, toggleGermanBtn);
+            });
+
+            audioPlayer.addEventListener('timeupdate', () => {
+                const currentTime = audioPlayer.currentTime * 1000;
+                
+                let found = false;
+                wordPairs.forEach(pair => {
+                    const startTime = parseInt(pair.dataset.startTime, 10);
+                    const endTime = parseInt(pair.dataset.endTime, 10);
+
+                    if (currentTime >= startTime && currentTime <= endTime) {
+                        if (lastHighlightedWord !== pair) {
+                            if (lastHighlightedWord) {
+                                lastHighlightedWord.classList.remove('current-word');
+                            }
+                            pair.classList.add('current-word');
+                            lastHighlightedWord = pair;
+                            pair.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        }
+                        found = true;
+                    }
+                });
+
+                if (!found && lastHighlightedWord) {
+                    lastHighlightedWord.classList.remove('current-word');
+                    lastHighlightedWord = null;
+                }
+            });
+
+            speedButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const speed = parseFloat(button.dataset.speed);
+                    audioPlayer.playbackRate = speed;
+                    
+                    speedButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                });
+            });
+
+            audioPlayer.playbackRate = 1.0;
+            const defaultSpeedButton = document.querySelector('.speed-btn[data-speed="1.0"]');
+            if (defaultSpeedButton) {
+                defaultSpeedButton.classList.add('active');
+            }
+        });
+    </script>
+   <script>
+document.addEventListener('DOMContentLoaded', function() {
+    const audioPlayer = document.getElementById('audioPlayer');
+
+    /* ===== LOOP BUTTON ===== */
+    const loopBtn = document.getElementById('loopBtn');
+    loopBtn.addEventListener('click', () => {
+        audioPlayer.loop = !audioPlayer.loop;
+
+        if (audioPlayer.loop) {
+            loopBtn.classList.add('active');
+            loopBtn.textContent = '🔁 Loop an';
+        } else {
+            loopBtn.classList.remove('active');
+            loopBtn.textContent = '🔁 Loop aus';
+        }
+    });
+
+    /* ===== SPEED SLIDER ===== */
+    const speedRange = document.getElementById('speedRange');
+    const speedValue = document.getElementById('speedValue');
+
+    function updateSpeed() {
+        const speed = parseFloat(speedRange.value);
+        audioPlayer.playbackRate = speed;
+        speedValue.textContent = speed.toFixed(2) + '×';
+    }
+
+    speedRange.addEventListener('input', updateSpeed);
+
+    // Startwert setzen
+    updateSpeed();
+});
+
+pair.scrollIntoView({
+    behavior: 'smooth',
+    block: 'nearest',  // Statt 'center'
+    inline: 'nearest'
+});
+
+
+</script>
+
+
+</body>
+
+</html>
